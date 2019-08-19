@@ -19,18 +19,16 @@ public class Test {
     private void run() throws AreaTypeException {
 
         test1.move(new FreeVector(0, 0));
-        Point point = new Point(2,3);
-        System.out.println(point.getVectorTo(new Point(4,5)).getNormalVector(new Point(2,1)));
 
-//        //扫描一片区域
-//        for (double i=-5 ; i<4; i+=0.07*2){
-//            for (double j=0; j<10; j+=0.025*2){
-//               if ( new JudgePointInArea(new Point(j,i), test1).getJudgement() || new JudgePointInArea(new Point(j,i), test2).getJudgement()) System.out.print(".");
-//               else System.out.print(" ");
-//            }
-//            System.out.println(); //换行
-//        }
-//        System.out.println(new JudgeAreaIntersectWithArea(test1, test2).getJudgement() ? "相交" : "不想交");
+        //扫描一片区域
+        for (double i=-5 ; i<4; i+=0.07*2){
+            for (double j=0; j<10; j+=0.025*2){
+               if ( new JudgePointInArea(new Point(j,i), test1).getJudgement() || new JudgePointInArea(new Point(j,i), test2).getJudgement()) System.out.print(".");
+               else System.out.print(" ");
+            }
+            System.out.println(); //换行
+        }
+        System.out.println(new JudgeAreaIntersectWithArea(test1, test2).getJudgement() ? "相交" : "不想交");
 
 
 //        System.out.println("从(2,2)到(7,7)，每隔√2一个点");

@@ -83,6 +83,4 @@ class FreeVector extends Vector {
     Vector toVectorFrom(Point point){
         return new Vector(point, new Point(point.getX()+this.getX(), point.getY()+this.getY()));
     }
-
-
 }

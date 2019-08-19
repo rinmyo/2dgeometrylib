@@ -65,6 +65,14 @@ public class Vector {
         return this.getCrossProduct(new Vector(this.start, point)) < 0;
     }
 
+    public boolean isCollinear(Point point){
+        return point.getVectorTo(start).toFreeVector().getY() * point.getVectorTo(end).toFreeVector().getX() == point.getVectorTo(start).toFreeVector().getX() * point.getVectorTo(end).toFreeVector().getY();
+    }
+
+    public boolean isCollinear(Vector vector){
+        return this.isCollinear(vector.start) && this.isCollinear(vector.end);
+    }
+
     /**
      * 向量积异号则不交叉
      * @param vector 第二个向量
@@ -122,6 +130,8 @@ public class Vector {
      * @return 法向量
      */
     public Vector getNormalVector(Point point){
+        if (this.isCollinear(point))return new Vector(point, point); //如果共线，则直接返回point本身的零向量
+
         Vector hypotenuse = point.getVectorFrom(point.distanceTo(start) < point.distanceTo(end) ? this.start : this.end); //弦向量, 选择小三角形的原因：位数一定，数据越小精度越高
         Vector leg = new FreeVector(
                 hypotenuse.getMagnitude() * Math.abs(Math.cos(this.getAngle() - hypotenuse.getAngle())),
@@ -129,8 +139,6 @@ public class Vector {
                 true)
                 .toVectorFrom(hypotenuse.start)
                 .getReversedVector();
-        System.out.println(leg);
-        System.out.println(Math.toDegrees(this.getReversedVector().getAngle()));
         // 点积为正说明夹角小于90deg
         return leg.add(hypotenuse) ;
     }
