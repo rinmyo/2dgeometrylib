@@ -66,11 +66,11 @@ public class Point {
     }
 
     /**
-     * 获得极坐标系幅角
-     * @return 幅角
+     * 获得极坐标系极角
+     * @return 极角
      */
     public double getT(){
-        return Math.atan(y/x);
+        return y>0 ? Math.atan(y/x) : (Math.atan(y/x) + Math.PI);
     }
 
 

@@ -23,7 +23,7 @@ public class JudgePointInArea implements JudgeBase {
         ) {
             if (
                     !vector.isXDirection()  //排除X方向上的向量
-                            && !vector.isLeftThan(point)
+                            && !vector.isPointRight(point)
                             && (
                             vector.getStart().getY() > point.getY() && vector.getEnd().getY() < point.getY() ||
                                     vector.getStart().getY() < point.getY() && vector.getEnd().getY() > point.getY()

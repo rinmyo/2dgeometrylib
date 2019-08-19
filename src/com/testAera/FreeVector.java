@@ -9,8 +9,12 @@ class FreeVector extends Vector {
         super(new Point(0,0), new Point(x, y));
     }
 
+    FreeVector(Point point){
+        this(point.getX(), point.getY());
+    }
+
     FreeVector(double r, double t, boolean isPC){
-        super(new Point(0,0), new Point(r, t, isPC));
+        this(new Point(r,t,isPC));
     }
 
     void setX(double x) {
@@ -48,10 +52,14 @@ class FreeVector extends Vector {
      * @return 向量和
      */
     @Override
-    FreeVector add(Vector vector) {
+    public FreeVector add(Vector vector) {
         return super.add(vector).toFreeVector();
     }
 
+    /**
+     * 取反向量
+     * @return 反向量
+     */
     @Override
     public FreeVector getReversedVector(){
         return new FreeVector(-getX(),-getY());
@@ -64,7 +72,7 @@ class FreeVector extends Vector {
      * @return 结果向量
      */
     @Override
-    FreeVector getScalarMultiplication(double scalar) {
+    public FreeVector getScalarMultiplication(double scalar) {
         return new FreeVector(getX()*scalar, getY()*scalar);
     }
 

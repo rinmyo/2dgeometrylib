@@ -48,6 +48,7 @@ public class JudgeAreaIntersectWithArea implements JudgeBase{
 
         for (Vector v: polygon.getVectors()
         ) {
+//            System.out.println(v.getNormalVector(circle.getCenter()).getDotProduct(v));
             if (v.getNormalVector(circle.getCenter()).getMagnitude() < circle.getRadius()) return true;
         }
 

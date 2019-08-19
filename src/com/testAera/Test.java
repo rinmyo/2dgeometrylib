@@ -1,6 +1,7 @@
 package com.testAera;
 
 import com.testAera.Exception.AreaTypeException;
+import com.testAera.judge.*;
 
 import java.io.IOException;
 
@@ -15,14 +16,15 @@ public class Test {
             });
     private Area test2 = new Circle(2,new Point(0,0));
 
-    private void run(){
+    private void run() throws AreaTypeException {
 
         test1.move(new FreeVector(0, 0));
-
+        Point point = new Point(2,3);
+        System.out.println(point.getVectorTo(new Point(4,5)).getNormalVector(new Point(2,1)));
 
 //        //扫描一片区域
-//        for (double i=-5 ; i<4; i+=0.07*1){
-//            for (double j=0; j<10; j+=0.025*1){
+//        for (double i=-5 ; i<4; i+=0.07*2){
+//            for (double j=0; j<10; j+=0.025*2){
 //               if ( new JudgePointInArea(new Point(j,i), test1).getJudgement() || new JudgePointInArea(new Point(j,i), test2).getJudgement()) System.out.print(".");
 //               else System.out.print(" ");
 //            }
@@ -50,7 +52,7 @@ public class Test {
 //            System.out.println("模长"+p.getR()+"，幅角"+Math.toDegrees(p.getT())+" ");
 //        }
 
-        System.out.println(((Polygon)test1).getVectors());
+//        System.out.println(((Polygon)test1).getVectors());
     }
     public static void main(String[] args) throws AreaTypeException, IOException {
          new Test().run();

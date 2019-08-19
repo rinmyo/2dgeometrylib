@@ -8,7 +8,7 @@ public class Vector {
     private Point start;
     private Point end;
 
-    Vector(Point start,Point end){
+    public Vector(Point start,Point end){
         this.start = start;
         this.end = end;
     }
@@ -49,11 +49,20 @@ public class Vector {
      * @param point 一点
      * @return true则说明向量在点的左边，反之则右
      */
-    public boolean isLeftThan(Point point){
+    public boolean isPointRight(Point point){
         if (this.toFreeVector().getY() > 0){
-            return !(this.getCrossProduct(new Vector(this.start, point)) > 0);
+            return isCW(point);
         }else
-            return this.getCrossProduct(new Vector(this.start, point)) > 0;
+            return !isCW(point);
+    }
+
+    /**
+     * 某点是否在向量的顺时针半周
+     * @param point 某点
+     * @return 某点
+     */
+    public boolean isCW(Point point){
+        return this.getCrossProduct(new Vector(this.start, point)) < 0;
     }
 
     /**
@@ -68,7 +77,7 @@ public class Vector {
     /**
      * @return 将矢量标准化为从原点出发的自由向量
      */
-    FreeVector toFreeVector(){
+    public FreeVector toFreeVector(){
         return new FreeVector(this.end.getX()-this.getStart().getX(), this.end.getY()-this.getStart().getY());
     }
 
@@ -77,16 +86,24 @@ public class Vector {
      * @param vector 另一个向量
      * @return 矢积
      */
-    private double getCrossProduct(Vector vector){
+    public double getCrossProduct(Vector vector){
         return this.toFreeVector().getX() * vector.toFreeVector().getY() - vector.toFreeVector().getX() * this.toFreeVector().getY();
     }
 
+    /**
+     * 取数量积
+     * @param vector 另一个向量
+     * @return 点积
+     */
+    public double getDotProduct(Vector vector){
+        return this.toFreeVector().getX() * vector.toFreeVector().getX() + this.toFreeVector().getY() * vector.toFreeVector().getY();
+    }
     /**
      * 向量的数乘
      * @param scalar 倍数
      * @return 结果向量
      */
-    Vector getScalarMultiplication(double scalar){
+    public Vector getScalarMultiplication(double scalar){
         return this.toFreeVector().getScalarMultiplication(scalar).toVectorFrom(this.start);
     }
 
@@ -95,7 +112,7 @@ public class Vector {
      * @param vector 另一个向量
      * @return 向量和
      */
-    Vector add(Vector vector){
+    public Vector add(Vector vector){
         return this.start.getVectorTo(vector.toFreeVector().toVectorFrom(this.getEnd()).getEnd());
     }
 
@@ -105,16 +122,33 @@ public class Vector {
      * @return 法向量
      */
     public Vector getNormalVector(Point point){
-            FreeVector freeVector = new FreeVector(point.distanceTo(this.start) * Math.cos(this.toFreeVector().getT() - point.getVectorFrom(this.start).toFreeVector().getT()), this.toFreeVector().getT(),true);  //用标准化坐标系描述向量
-            return new Point(this.start.getX() + freeVector.getX(), this.start.getY() + freeVector.getY()).getVectorTo(point);  //坐标变换回原坐标，并做向量到指定点
+        Vector hypotenuse = point.getVectorFrom(point.distanceTo(start) < point.distanceTo(end) ? this.start : this.end); //弦向量, 选择小三角形的原因：位数一定，数据越小精度越高
+        Vector leg = new FreeVector(
+                hypotenuse.getMagnitude() * Math.abs(Math.cos(this.getAngle() - hypotenuse.getAngle())),
+                (point.distanceTo(start) < point.distanceTo(end) ? this.getDotProduct(hypotenuse) > 0 : this.getDotProduct(hypotenuse) < 0) ? this.getAngle() : this.getReversedVector().getAngle(),
+                true)
+                .toVectorFrom(hypotenuse.start)
+                .getReversedVector();
+        System.out.println(leg);
+        System.out.println(Math.toDegrees(this.getReversedVector().getAngle()));
+        // 点积为正说明夹角小于90deg
+        return leg.add(hypotenuse) ;
     }
 
     /**
-     *
+     *取模长
      * @return 模长
      */
     public double getMagnitude(){
         return this.start.distanceTo(this.end);
+    }
+
+    /**
+     * 取相角/幅角
+     * @return 相角
+     */
+    public double getAngle(){
+        return this.toFreeVector().getT();
     }
 
     /**
