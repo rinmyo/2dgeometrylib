@@ -79,7 +79,7 @@ public class Vector {
      * @return 交叉
      */
     public boolean isIntersectWith(Vector vector){
-         return (this.getCrossProduct(new Vector(this.start,vector.start)) > 0) ^ (this.getCrossProduct(new Vector(this.start,vector.end)) > 0);
+         return this.isCW(vector.getStart()) ^ this.isCW(vector.getEnd()) && vector.isCW(this.getStart()) ^ vector.isCW(this.getEnd());
     }
 
     /**
