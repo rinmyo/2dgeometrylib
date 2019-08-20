@@ -1,4 +1,4 @@
-package com.testAera.Exception;
+package dev.gly.planegeometry.Exception;
 
 public class AreaTypeException extends Exception{
     public AreaTypeException() {

@@ -1,6 +1,6 @@
-package com.testAera;
+package dev.gly.planegeometry;
 
-import com.testAera.Exception.AreaTypeException;
+import dev.gly.planegeometry.Exception.AreaTypeException;
 
 public interface Area {
     /**

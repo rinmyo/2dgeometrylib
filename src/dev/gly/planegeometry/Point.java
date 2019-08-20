@@ -1,4 +1,4 @@
-package com.testAera;
+package dev.gly.planegeometry;
 
 public class Point {
     private double x;

@@ -1,4 +1,4 @@
-package com.testAera;
+package dev.gly.planegeometry;
 
 /**
  * 自由向量没有起点，在绝对标准坐标系中起点为零的一个向量
