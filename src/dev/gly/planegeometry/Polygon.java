@@ -1,13 +1,13 @@
 package dev.gly.planegeometry;
 
-import dev.gly.planegeometry.Exception.AreaTypeException;
+import dev.gly.planegeometry.Exception.ShapeTypeException;
 
 import java.util.*;
 
 /**
  * 本类将依次录入的坐标点转化为首尾相连的向量，终而形成闭环，以描述封闭图形
  */
-public class Polygon implements Area{
+public class Polygon implements Shape {
     private Point[] points;
     private Point min =null;
     private Point max = null;
@@ -116,27 +116,27 @@ public class Polygon implements Area{
     /**
      * 是否与另一个区域相交
      *
-     * @param area 另一个区域
+     * @param shape 另一个区域
      * @return 布尔
      */
     @Override
-    public boolean isIntersectWithArea(Area area) throws AreaTypeException {
-        if (isMinRectangularApart(area)) return false; //如果矩形不相交或包含直接返回否
+    public boolean isIntersectWithShape(Shape shape) throws ShapeTypeException {
+        if (isMinRectangularApart(shape)) return false; //如果矩形不相交或包含直接返回否
 
         //多边形*圆
-        if (area instanceof Circle){
+        if (shape instanceof Circle){
             for (Vector v: getVectors()
             ) {
-                if (area.isIncludePoint(v.getStart()) ^ area.isIncludePoint(v.getEnd())) return true;  //遍历所有向量，只要穿过则说明相交
+                if (shape.isIncludePoint(v.getStart()) ^ shape.isIncludePoint(v.getEnd())) return true;  //遍历所有向量，只要穿过则说明相交
             }
             return false;
         }
 
         //多边形*多边形
-        if (area instanceof Polygon){
+        if (shape instanceof Polygon){
             for (Vector v1: this.getVectors()
             ) {
-                for (Vector v2: ((Polygon)area).getVectors()
+                for (Vector v2: ((Polygon) shape).getVectors()
                 ) {
                     if (v1.isIntersectWith(v2))
                         return true;
@@ -144,38 +144,71 @@ public class Polygon implements Area{
             }
             return false;
         }
-        throw new AreaTypeException("error");
+        throw new ShapeTypeException("error");
 
     }
 
     /**
      * 是否包围另一个区域
      *
-     * @param area 另一个区域
+     * @param shape 另一个区域
      * @return 布尔
      */
     @Override
-    public boolean isSurroundArea(Area area) throws AreaTypeException {
-        if (!isMinRectangularSurround(area) || isIntersectWithArea(area)) return false;
+    public boolean isSurroundShape(Shape shape) throws ShapeTypeException {
+        if (!isMinRectangularSurround(shape) || isIntersectWithShape(shape)) return false;
 
-        if (area instanceof Polygon){
-            for (Point p: ((Polygon)area).getPoints()
+        if (shape instanceof Polygon){
+            for (Point p: ((Polygon) shape).getPoints()
             ) {
                 if (!this.isIncludePoint(p)) return false;
             }
             return true;
         }
 
-        if (area instanceof Circle){
-            if (!this.isIncludePoint(((Circle)area).getCenter())) return false; //如果不包含圆心，更不可能包含整个圆
+        if (shape instanceof Circle){
+            if (!this.isIncludePoint(((Circle) shape).getCenter())) return false; //如果不包含圆心，更不可能包含整个圆
             for (Point p: this.getPoints()
                  ) {
-                if (area.isIncludePoint(p)) return false;
+                if (shape.isIncludePoint(p)) return false;
             }
             return true;
         }
 
-        throw new AreaTypeException();
+        throw new ShapeTypeException();
+    }
+
+    /**
+     * 获取面积
+     *
+     * @return 面积
+     */
+    @Override
+    public double getArea() {
+        double sum = 0;
+        for (int i = 0; i < getPoints().length ; ++i){
+            if (i == getPoints().length-1) {
+                sum += getPoints()[i].toFreeVector().getCrossProduct(getPoints()[0].toFreeVector());
+            } else {
+                sum += getPoints()[i].toFreeVector().getCrossProduct(getPoints()[i + 1].toFreeVector());
+            }
+        }
+        return sum/2;
+    }
+
+    /**
+     * 获取周长
+     *
+     * @return 周长
+     */
+    @Override
+    public double getPerimeter() {
+        double sum = 0;
+        for (Vector v: getVectors()
+             ) {
+            sum += v.getMagnitude();
+        }
+        return sum;
     }
 
     /**

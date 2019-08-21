@@ -3,41 +3,41 @@ package dev.gly.planegeometry;
 /**
  * 自由向量没有起点，在绝对标准坐标系中起点为零的一个向量
  */
-class FreeVector extends Vector {
+public class FreeVector extends Vector {
 
-    FreeVector(double x, double y) {
+    public FreeVector(double x, double y) {
         super(new Point(0,0), new Point(x, y));
     }
 
-    FreeVector(Point point){
+    public FreeVector(Point point){
         this(point.getX(), point.getY());
     }
 
-    FreeVector(double r, double t, boolean isPC){
+    public FreeVector(double r, double t, boolean isPC){
         this(new Point(r,t,isPC));
     }
 
-    void setX(double x) {
+    public void setX(double x) {
         this.getEnd().setX(x);
     }
 
-    void setY(double y) {
+    public void setY(double y) {
         this.getEnd().setY(y);
     }
 
-    double getX(){
+    public double getX(){
         return getEnd().getX();
     }
 
-    double getY(){
+    public double getY(){
         return getEnd().getY();
     }
 
-    double getR(){
+    public double getR(){
         return getEnd().getR();
     }
 
-    double getT(){
+    public double getT(){
         return getEnd().getT();
     }
 
@@ -80,7 +80,7 @@ class FreeVector extends Vector {
      * 转化为起点给定的向量
      * @return 转化为
      */
-    Vector toVectorFrom(Point point){
+    public Vector toVectorFrom(Point point){
         return new Vector(point, new Point(point.getX()+this.getX(), point.getY()+this.getY()));
     }
 }

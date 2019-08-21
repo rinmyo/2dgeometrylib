@@ -1,11 +1,11 @@
 package dev.gly.planegeometry;
 
-import dev.gly.planegeometry.Exception.AreaTypeException;
+import dev.gly.planegeometry.Exception.ShapeTypeException;
 
 /*
 
  */
-public class Circle implements Area {
+public class Circle implements Shape {
     private double radius; //半径
     private Point center; //圆心
 
@@ -63,54 +63,74 @@ public class Circle implements Area {
     /**
      * 是否与另一个区域相交
      *
-     * @param area 另一个区域
+     * @param shape 另一个区域
      * @return 布尔
      */
     @Override
-    public boolean isIntersectWithArea(Area area) throws AreaTypeException{
-        if (isMinRectangularApart(area)) return false; //如果矩形不相交或包含直接返回否
+    public boolean isIntersectWithShape(Shape shape) throws ShapeTypeException {
+        if (isMinRectangularApart(shape)) return false; //如果矩形不相交或包含直接返回否
 
         //多边形*圆
-        if (area instanceof Polygon){
-            for (Vector v: ((Polygon)area).getVectors()
+        if (shape instanceof Polygon){
+            for (Vector v: ((Polygon) shape).getVectors()
             ) {
-                if (area.isIncludePoint(v.getStart()) ^ area.isIncludePoint(v.getEnd())) return true;  //遍历所有向量，只要穿过则说明相交
+                if (shape.isIncludePoint(v.getStart()) ^ shape.isIncludePoint(v.getEnd())) return true;  //遍历所有向量，只要穿过则说明相交
             }
             return false;
         }
 
         //yuan yuan
-        if (area instanceof Circle){
-            Circle circle = (Circle)area;
+        if (shape instanceof Circle){
+            Circle circle = (Circle) shape;
             return getCenter().distanceTo(circle.getCenter()) < getRadius() + circle.getRadius() && getCenter().distanceTo(circle.getCenter()) > Math.abs(getRadius() - circle.getRadius());
         }
 
-        throw new AreaTypeException("error");
+        throw new ShapeTypeException("error");
     }
 
     /**
      * 是否包围另一个区域
      *
-     * @param area 另一个区域
+     * @param shape 另一个区域
      * @return 布尔
      */
     @Override
-    public boolean isSurroundArea(Area area) throws AreaTypeException {
-        if (!isMinRectangularSurround(area) || isIntersectWithArea(area)) return false;
+    public boolean isSurroundShape(Shape shape) throws ShapeTypeException {
+        if (!isMinRectangularSurround(shape) || isIntersectWithShape(shape)) return false;
 
-        if (area instanceof Polygon){
-            for (Point p: ((Polygon)area).getPoints()
+        if (shape instanceof Polygon){
+            for (Point p: ((Polygon) shape).getPoints()
                  ) {
                 if (!this.isIncludePoint(p))return false;
             }
             return true;
         }
 
-        if (area instanceof Circle){
-            return getCenter().distanceTo(((Circle)area).getCenter()) < getRadius() - ((Circle)area).getRadius();
+        if (shape instanceof Circle){
+            return getCenter().distanceTo(((Circle) shape).getCenter()) < getRadius() - ((Circle) shape).getRadius();
         }
 
-        throw new AreaTypeException();
+        throw new ShapeTypeException();
+    }
+
+    /**
+     * 获取面积
+     * S=πr²
+     * @return 面积
+     */
+    @Override
+    public double getArea() {
+        return Math.PI*radius*radius;
+    }
+
+    /**
+     * 获取周长
+     * C=2πr
+     * @return 周长
+     */
+    @Override
+    public double getPerimeter() {
+        return 2*Math.PI*radius;
     }
 
     /**
