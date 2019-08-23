@@ -127,7 +127,7 @@ public class Polygon implements Shape {
         if (shape instanceof Circle){
             for (Vector v: getVectors()
             ) {
-                if (shape.isIncludePoint(v.getStart()) ^ shape.isIncludePoint(v.getEnd())) return true;  //遍历所有向量，只要穿过则说明相交
+                if (v.getNormalVector(((Circle) shape).getCenter()).getMagnitude() < ((Circle) shape).getRadius()) return true;  //遍历所有向量，只要點到向量的距離小於半徑則一定相交
             }
             return false;
         }
