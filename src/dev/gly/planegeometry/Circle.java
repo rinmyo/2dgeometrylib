@@ -43,7 +43,6 @@ public class Circle implements Shape {
         double del_rad = interval/radius;  //间隔角度
         Point[] points = new Point[(int) (2*Math.PI/(del_rad))];  //舍弃小数 todo: 尝试四舍六入五留双能否更精确
         for (int i = 0; i < points.length; ++i){
- //           System.out.println(Math.toDegrees(i * del_rad));
             points[i] = center.toFreeVector().add(new FreeVector(radius, i * del_rad,true)).toFreeVector().toPoint();
         }
         return points;

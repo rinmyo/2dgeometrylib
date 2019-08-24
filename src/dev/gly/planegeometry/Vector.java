@@ -131,7 +131,7 @@ public class Vector {
      * @return 法向量
      */
     public Vector getNormalVector(Point point){
-        if (this.isCollinear(point))return new Vector(point, point); //如果共线，则直接返回point本身的零向量
+        if (this.isCollinear(point)) return new Vector(point, point); //如果共线，则直接返回point本身的零向量
         return new Vector(this.getScalarMultiplication(this.getDotProduct(new Vector(this.start, point))/(this.getMagnitude()*this.getMagnitude())).getEnd(), point);
     }
 
