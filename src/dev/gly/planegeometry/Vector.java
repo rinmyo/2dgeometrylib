@@ -131,16 +131,7 @@ public class Vector {
      */
     public Vector getNormalVector(Point point){
         if (this.isCollinear(point))return new Vector(point, point); //如果共线，则直接返回point本身的零向量
-
-        Vector hypotenuse = point.getVectorFrom(point.distanceTo(start) < point.distanceTo(end) ? this.start : this.end); //弦向量, 选择小三角形的原因：位数一定，数据越小精度越高
-        Vector leg = new FreeVector(
-                hypotenuse.getMagnitude() * Math.abs(Math.cos(this.getAngle() - hypotenuse.getAngle())),
-                (point.distanceTo(start) < point.distanceTo(end) ? this.getDotProduct(hypotenuse) > 0 : this.getDotProduct(hypotenuse) < 0) ? this.getAngle() : this.getReversedVector().getAngle(),
-                true)
-                .toVectorFrom(hypotenuse.start)
-                .getReversedVector();
-        // 点积为正说明夹角小于90deg
-        return leg.add(hypotenuse) ;
+        return new Vector(this.getScalarMultiplication(this.getDotProduct(new Vector(this.start, point))/(this.getMagnitude()*this.getMagnitude())).getEnd(), point);
     }
 
     /**
