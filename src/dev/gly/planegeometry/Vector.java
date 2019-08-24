@@ -126,6 +126,7 @@ public class Vector {
 
     /**
      * 得到指向指定点的法向量
+     * 利用共線的特徵, 數乘來求解
      * @param point 给定点
      * @return 法向量
      */
