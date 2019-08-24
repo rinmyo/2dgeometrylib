@@ -125,7 +125,7 @@ public class Vector {
     }
 
     /**
-     * 得到指向制定点的法向量
+     * 得到指向指定点的法向量
      * @param point 给定点
      * @return 法向量
      */
