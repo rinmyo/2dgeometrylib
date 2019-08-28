@@ -9,11 +9,16 @@ import java.util.*;
  */
 public class Polygon implements Shape {
     private Point[] points;
+
     private Point min =null;
     private Point max = null;
 
     public Polygon(Point[] points) {
         this.points = points;
+    }
+
+    public Polygon(List<Point> pointsList){
+        points = (Point[]) pointsList.toArray();
     }
 
     /**
