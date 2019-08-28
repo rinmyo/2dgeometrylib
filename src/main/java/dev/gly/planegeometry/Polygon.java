@@ -17,6 +17,10 @@ public class Polygon implements Shape {
         this.points = points;
     }
 
+    public Polygon(LinkedList<Point> pointsList){
+        points = pointsList.toArray(new Point[pointsList.size()]);
+    }
+
     /**
      * 得到向量集
      * @return 向量列表
