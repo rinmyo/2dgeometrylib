@@ -7,7 +7,6 @@ public class Main {
 
         JudgeFunc judgeFunc = (s, p) -> s[0].isIncludePoint(p) ^ s[1].isIncludePoint(p);
 
-
         Area area = new Area(new Shape[]{triangle, circle}, judgeFunc);
 
         System.out.println(area.judge(new Point(0,0)));
