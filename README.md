@@ -82,17 +82,16 @@
     圆通过 _圆心_ 和 _半径_ 来定义
      
 ## 3. 名词解释
-    區域是一個或多個Shape和這些shapes的集合關係定義的
-    創建一個Area
+
+區域是一個或多個Shape和這些shapes的集合關係定義的
+創建一個Area
     
-    ```
-    Area area = new Area(Shape[] shapes, JudgeFunc judgeFunc);
-    ```
-    第二個形參是判斷邏輯λ表達式，它的目的是定義怎樣才能算做**區域內**，他由使用者實現
+     Area area = new Area(Shape[] shapes, JudgeFunc judgeFunc);
+
+第二個形參是判斷邏輯λ表達式，它的目的是定義怎樣才能算做**區域內**，他由使用者實現
     
-    例子：
-    
-    ```
+例子：
+
     //定義兩個shape
     Shape triangle = new Polygon(new Point[]{new Point(0, 0), new Point(30, 0), new Point(15, 30)});
     Shape circle = new Circle(0.5, new Point(15, 15));
@@ -102,10 +101,10 @@
 
     //用一個數組和judgefunc來定義一個區域
     Area area = new Area(new Shape[]{triangle, circle}, judgeFunc);
-    ```
-    如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合
     
-    而`Area()`的首個參數`new Shape[]{triangle, circle}`則定義了s[0]是之前定義的三角形，s[1]是那個圓形
+如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合
     
-    如此便可知，當三角包含圓不包含 或者 圓包含但三角不包含 的點，便是該Area所定義的區域內部
+而`Area()`的首個參數`new Shape[]{triangle, circle}`則定義了s[0]是之前定義的三角形，s[1]是那個圓形
+    
+如此便可知，當三角包含圓不包含 或者 圓包含但三角不包含 的點，便是該Area所定義的區域內部
      
