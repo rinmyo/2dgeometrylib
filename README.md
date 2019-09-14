@@ -1,7 +1,7 @@
 # 2DGeometry
 
 ## 1. 概述
- 这是一个二维平面向量驱动的计算几何学库，为Glycine开发的Minecraft服务器提供几何学计算与格式存储支持
+ 这是一个平面向量驱动的几何库，为Glycine开发的Minecraft服务器提供几何学计算支持
 
 ## 2. 名词解释
 1. ### 坐标系
@@ -77,13 +77,35 @@
         
 6. ### 圆(Circle)
 
-     圆实现了Shape接口
+    圆实现了Shape接口
      
-     圆通过 _圆心_ 和 _半径_ 来定义
+    圆通过 _圆心_ 和 _半径_ 来定义
      
-## 组合
-   你可以用多边形和圆组合出同的图形，例如 用一个矩形和4个圆 组成圆角矩形，只需取点 (在四个圆中 || 在矩形中)
-   
-   再如用两个圆组成圆环，取点 (在大圆内 && !在小圆内)
-           
+## 3. 名词解释
+    區域是一個或多個Shape和這些shapes的集合關係定義的
+    創建一個Area
+    
+    ```
+    Area area = new Area(Shape[] shapes, JudgeFunc judgeFunc);
+    ```
+    第二個形參是判斷邏輯λ表達式，它的目的是定義怎樣才能算做**區域內**，他由使用者實現
+    
+    例子：
+    
+    ```
+    //定義兩個shape
+    Shape triangle = new Polygon(new Point[]{new Point(0, 0), new Point(30, 0), new Point(15, 30)});
+    Shape circle = new Circle(0.5, new Point(15, 15));
+
+    //定義一個邏輯關係，s是shapes數組，p是待測點
+    JudgeFunc judgeFunc = (s, p) -> s[0].isIncludePoint(p) ^ s[1].isIncludePoint(p);
+
+    //用一個數組和judgefunc來定義一個區域
+    Area area = new Area(new Shape[]{triangle, circle}, judgeFunc);
+    ```
+    如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合
+    
+    而`Area()`的首個參數`new Shape[]{triangle, circle}`則定義了s[0]是之前定義的三角形，s[1]是那個圓形
+    
+    如此便可知，當三角包含圓不包含 或者 圓包含但三角不包含 的點，便是該Area所定義的區域內部
      
