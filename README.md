@@ -104,7 +104,9 @@
     
 如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合
     
-而`Area()`的首個參數`new Shape[]{triangle, circle}`則定義了s[0]是之前定義的三角形，s[1]是那個圓形
+而 `Area()` 的首個參數 `new Shape[]{triangle, circle}` 則定義了s[0]是之前定義的三角形，s[1]是那個圓形
     
 如此便可知，當三角包含圓不包含 或者 圓包含但三角不包含 的點，便是該Area所定義的區域內部
+
+對於一個區域，可以用 `Area.isIncludePoint(point)` 來測定點是否在區域內部，Satanya建議使用者將所有的範圍定義爲區域而非幾何圖形
      
