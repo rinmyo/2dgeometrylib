@@ -3,7 +3,7 @@
 ## 1. 概述
  这是一个平面向量驱动的几何库，为Glycine开发的Minecraft服务器提供几何学计算支持
 
-## 2. 名词解释
+## 2. 釋詞
 1. ### 坐标系
 
     任何几何元素都需要坐标系来定位，本库不定义任何坐标系，因此使用者必须要确认所有输入本库的点都在同一个坐标系中，否则将不会计算出正确的答案.
@@ -96,13 +96,13 @@
     Shape triangle = new Polygon(new Point[]{new Point(0, 0), new Point(30, 0), new Point(15, 30)});
     Shape circle = new Circle(0.5, new Point(15, 15));
 
-    //定義一個邏輯關係，s是shapes數組，p是待測點
+    //定義一個集合關係，s是shapes數組，p是待測點
     JudgeFunc judgeFunc = (s, p) -> s[0].isIncludePoint(p) ^ s[1].isIncludePoint(p);
 
     //用一個數組和judgefunc來定義一個區域
     Area area = new Area(new Shape[]{triangle, circle}, judgeFunc);
     
-如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合
+如上，judgeFunc定義了s[0]和s[1]二者有且僅有一個包含待測點時的集合，你可以使用lambda exp很方便的使用集合語言來定義何爲區域之內部
     
 而 `Area()` 的首個參數 `new Shape[]{triangle, circle}` 則定義了s[0]是之前定義的三角形，s[1]是那個圓形
     

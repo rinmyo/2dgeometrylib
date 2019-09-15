@@ -1,0 +1,7 @@
+dev/gly/planegeometry/FreeVector.class
+dev/gly/planegeometry/Circle.class
+dev/gly/planegeometry/Exception/ShapeTypeException.class
+dev/gly/planegeometry/Shape.class
+dev/gly/planegeometry/Vector.class
+dev/gly/planegeometry/Polygon.class
+dev/gly/planegeometry/Point.class
