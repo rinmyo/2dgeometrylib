@@ -1,21 +1,15 @@
 # 2DGeometry
 
-## 1. 概述
- 这是一个平面向量驱动的几何库，为Glycine开发的Minecraft服务器提供几何学计算支持
+## 1. What's this ? 概述
+ This is a plane geometry library driven by 2D vector for the Minecraft server plugin
 
 ## 2. 釋詞
-1. ### 坐标系
+1. ### Coordinate System
 
-    任何几何元素都需要坐标系来定位，本库不定义任何坐标系，因此使用者必须要确认所有输入本库的点都在同一个坐标系中，否则将不会计算出正确的答案.
-
-    **游戏坐标系**： 即Minecraft中的坐标系统，是一个空间直角坐标系，所有游戏api的点位都是在游戏坐标系中定义的.
+    It is necessary to be located and defined by a coordinate system for any geometry element. this lib DO NOT define any coordinate system, therefore you MUST ensure all you input is defined by the same coordinate system. 
+    **Minecraft Coordinate System**： the 3D coordinate system of minecraft.
     
-    **计算坐标系**： 本库不定义任何绝对坐标系，因此计算时采用何种坐标系是由输入的点所在的坐标系决定.
-    
-    例如你将游戏中x和z值直接输入本库的x和y进行计算，那么游戏xz平面就是计算坐标系，游戏的xz原点就是计算坐标系的原点.
-    
-    如果你将游戏坐标系的yz坐标【全部放大三倍再减4】后当作本库的xy坐标，那么这些经过变换的坐标系就是计算坐标系. 当然计算结果同样需要转回游戏坐标进行调用bukkit api.
-    
+    if the coordinate system you use is NOT the minecraft coordinate, Plz convert it to minecraft coordinate system before you use the computing result
 2. ### 点(Point)
 
     使用两个double型坐标变量定义的一种数据类型，支持直角坐标和极坐标定义一个点，
