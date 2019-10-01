@@ -1,8 +1,8 @@
 package dev.gly.planegeometry;
 
 /**
- * 向量类，不规则区域的边用向量来描述
- *  两个坐标定义一个向量
+ *  Vector
+ *  use 2 points to define a vector
  */
 public class Vector {
     private Point start;
@@ -30,7 +30,7 @@ public class Vector {
     }
 
     /**
-     * 取反向的向量
+     * get a reversed vector
      */
     public Vector getReversedVector(){
         return new Vector(this.end, this.start);
@@ -38,16 +38,15 @@ public class Vector {
 
     /**
      *
-     * 判定向量是否与X轴平行
+     * judge if a vector parallel the X axis
      */
     public boolean isXDirection(){
         return this.getStart().getY() == this.getEnd().getY();
     }
 
     /**
-     * 利用矢积计算向量是否位于点的左边,
-     * @param point 一点
-     * @return true则说明向量在点的左边，反之则右
+     * judge if the vector is left than a specific point
+     * @param point the specific point
      */
     public boolean isPointRight(Point point){
         if (this.toFreeVector().getY() > 0){
@@ -57,78 +56,78 @@ public class Vector {
     }
 
     /**
-     * 某点是否在向量的顺时针半周
-     * @param point 某点
-     * @return 某点
+     * judge if a specific point is in the half plot that rotates the vector 90deg clockwise
+     * @param point a specific point
      */
     public boolean isCW(Point point){
         return this.getCrossProduct(new Vector(this.start, point)) < 0;
     }
 
+    /**
+     * judge if a specific point is collinear with the vector
+     * @param point a specific point
+     */
     public boolean isCollinear(Point point){
         return point.getVectorTo(start).toFreeVector().getY() * point.getVectorTo(end).toFreeVector().getX() == point.getVectorTo(start).toFreeVector().getX() * point.getVectorTo(end).toFreeVector().getY();
     }
 
+    /**
+     * judge if 2 vectors is collinear
+     * @param vector a specific vector
+     */
     public boolean isCollinear(Vector vector){
         return this.isCollinear(vector.start) && this.isCollinear(vector.end);
     }
 
     /**
-     * 向量积异号则不交叉
-     * @param vector 第二个向量
-     * @return 交叉
+     * judge if two vectors intersect each other
+     * @param vector a specific vector
      */
-    public boolean isIntersectWith(Vector vector){
+    public boolean isIntersectedBy(Vector vector){
          return this.isCW(vector.getStart()) ^ this.isCW(vector.getEnd()) && vector.isCW(this.getStart()) ^ vector.isCW(this.getEnd());
     }
 
     /**
-     * @return 将矢量标准化为从原点出发的自由向量
+     * transfer the vector to a free vector
      */
     public FreeVector toFreeVector(){
         return new FreeVector(this.end.getX()-this.getStart().getX(), this.end.getY()-this.getStart().getY());
     }
 
     /**
-     * 二维向量求矢量积
-     * @param vector 另一个向量
-     * @return 矢积
+     * get the cross product of the vector and another specific vector
+     * @param vector a specific vector
      */
     public double getCrossProduct(Vector vector){
         return this.toFreeVector().getX() * vector.toFreeVector().getY() - vector.toFreeVector().getX() * this.toFreeVector().getY();
     }
 
     /**
-     * 取数量积
-     * @param vector 另一个向量
-     * @return 点积
+     * get the cross product of the vector and another specific vector
+     * @param vector a specific vector
      */
     public double getDotProduct(Vector vector){
         return this.toFreeVector().getX() * vector.toFreeVector().getX() + this.toFreeVector().getY() * vector.toFreeVector().getY();
     }
     /**
-     * 向量的数乘
-     * @param scalar 倍数
-     * @return 结果向量
+     * get the scalar multiplication with a specific scalar
+     * @param scalar scalar
      */
     public Vector getScalarMultiplication(double scalar){
         return this.toFreeVector().getScalarMultiplication(scalar).toVectorFrom(this.start);
     }
 
     /**
-     * 求向量和
-     * @param vector 另一个向量
-     * @return 向量和
+     * vector addition
+     * @param vector a specific vector
      */
     public Vector add(Vector vector){
         return this.start.getVectorTo(vector.toFreeVector().toVectorFrom(this.getEnd()).getEnd());
     }
 
     /**
-     * 得到指向指定点的法向量
-     * 利用共線的特徵, 數乘來求解
-     * @param point 给定点
-     * @return 法向量
+     * get the normal vector that direct to a specific point
+     * @param point a specific point
      */
     public Vector getNormalVector(Point point){
         if (this.isCollinear(point)) return new Vector(point, point); //如果共线，则直接返回point本身的零向量
@@ -136,25 +135,24 @@ public class Vector {
     }
 
     /**
-     *取模长
-     * @return 模长
+     * get the length of the vector
+     * @return length
      */
     public double getMagnitude(){
         return this.start.distanceTo(this.end);
     }
 
     /**
-     * 取相角/幅角
-     * @return 相角
+     * get phase angle
+     * @return angle
      */
     public double getAngle(){
         return this.toFreeVector().getT();
     }
 
     /**
-     *分点
-     * @param interval 间隔
-     * @return 点集
+     * get a array of discrete points which is sample by a specific interval
+     * @param interval a specific interval
      */
     public Point[] getDiscretePoints(double interval) {
         Point[] points = new Point[(int) (getMagnitude()/interval)];

@@ -143,7 +143,7 @@ public class Polygon implements Shape {
             ) {
                 for (Vector v2: ((Polygon) shape).getVectors()
                 ) {
-                    if (v1.isIntersectWith(v2))
+                    if (v1.isIntersectedBy(v2))
                         return true;
                 }
             }
