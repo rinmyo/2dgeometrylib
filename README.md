@@ -1,5 +1,8 @@
 # 2DGeometry
 
+##**ATTENTION**: This Project has been abandoned.
+##**注意**：這個項目已經被廢止（拒絕造輪子）
+
 ## 1. What's this ? 概述
  This is a plane geometry library driven by 2D vector for the Minecraft server plugin
 
